@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "17252d4b-30bf-4512-8e82-b648bc06d71d",
+		"name": "Users",
+		"description": "Here's a collection of all the api request to my-adonis-api-test-app, which is hosted on heroku and deployed via circleCI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/user/get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0ea0326-98c0-47b8-92b2-6f84c7101baf",
+						"exec": [
+							"pm.test(\"Request is successful with a status code of 200\", ()=> {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Check that it returns an array\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData).to.be.an(\"array\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/user/get",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"user",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user/create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1f27bc69-9877-493e-918d-7db3d0cfc381",
+						"exec": [
+							"let random = +new Date();",
+							"",
+							"pm.globals.set(\"username\", `${random}-user`);",
+							"pm.globals.set(\"email\", `${random}-user@test.com`);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e55e09f-9086-4fd9-860a-4a5b9f7c4d64",
+						"exec": [
+							"pm.test(\"User creation was successful\", function () {",
+							"  pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+							"});",
+							"",
+							"pm.test(\"Confirm response message\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.message).to.eql(\"User Successfully created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Idontknow",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api-url}}/user/create",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
