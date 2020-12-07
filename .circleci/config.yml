@@ -2,20 +2,23 @@ version: 2.1
 orbs:
   newman: postman/newman@0.0.2
   slack: circleci/slack@4.1.3
+  jq: circleci/jq@2.2.0
 jobs:
   build:
     executor: newman/postman-newman-docker
     environment:
       BASH: true
+    docker:
+      - image: 'cimg/base:stable'  
     steps:
       - checkout
+      - jq/install
       - run:
           command: apk update; apk add bash
       - newman/newman-run:
           collection: ./Users.postman_collection.json
           environment: ./My-adonis-api-testing.postman_environment.json
       - slack/notify:
-          channel: a-project
           event: fail
           template: basic_fail_1
 workflows:
