@@ -12,9 +12,6 @@ jobs:
       - image: 'cimg/base:stable'  
     steps:
       - checkout
-      - jq/install
-      - run:
-          command: apk update; apk add bash
       - newman/newman-run:
           collection: ./Users.postman_collection.json
           environment: ./My-adonis-api-testing.postman_environment.json
