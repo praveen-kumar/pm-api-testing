@@ -5,13 +5,17 @@ orbs:
 jobs:
   build:
     executor: newman/postman-newman-docker
+    environment:
+      BASH: true
     steps:
       - checkout
+      - run:
+          command: apk update; apk add bash
       - newman/newman-run:
           collection: ./Users.postman_collection.json
           environment: ./My-adonis-api-testing.postman_environment.json
       - slack/notify:
-          channel: NEW_CHANNEL
+          channel: a-project
           event: fail
           template: basic_fail_1
 workflows:
