@@ -4,8 +4,6 @@ orbs:
   slack: circleci/slack@4.1.3
 jobs:
   build:
-    docker:
-      - image: "cimg/base:stable"
     executor: newman/postman-newman-docker
     steps:
       - checkout
@@ -13,6 +11,7 @@ jobs:
           collection: ./Users.postman_collection.json
           environment: ./My-adonis-api-testing.postman_environment.json
       - slack/notify:
+          channel: a-project
           event: fail
           template: basic_fail_1
 workflows:
