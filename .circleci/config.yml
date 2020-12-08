@@ -5,6 +5,8 @@ orbs:
 jobs:
   build:
     executor: newman/postman-newman-docker
+    docker:
+      - image: alpine:latest
     steps:
       - checkout
       - newman/newman-run:
@@ -14,12 +16,8 @@ jobs:
           channel: a-project
           event: fail
           template: basic_fail_1
-  Notify slack:
-    docker:
-      - image: alpine:latest
 workflows:
   run_tests_and_notify:
     jobs:
-      - Notify slack
       - build:
           context: slack-secrets
