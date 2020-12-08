@@ -12,8 +12,9 @@ jobs:
           environment: ./My-adonis-api-testing.postman_environment.json
       - slack/notify:
           channel: a-project
-          event: fail
+          event: true
           template: basic_fail_1
+          webhook: ${SLACK_ACCESS_TOKEN}
 workflows:
   run_tests_and_notify:
     jobs:

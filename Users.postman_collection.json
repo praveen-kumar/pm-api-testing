@@ -15,7 +15,7 @@
 						"id": "f0ea0326-98c0-47b8-92b2-6f84c7101baf",
 						"exec": [
 							"pm.test(\"Request is successful with a status code of 200\", ()=> {",
-							"  pm.response.to.have.status(200);",
+							"  pm.response.to.have.status(205);",
 							"});",
 							"",
 							"pm.test(\"Check that it returns an array\", function () {",
