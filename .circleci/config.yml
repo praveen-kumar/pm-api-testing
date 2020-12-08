@@ -2,24 +2,24 @@ version: 2.1
 orbs:
   newman: postman/newman@0.0.2
   slack: circleci/slack@4.1.3
-  jq: circleci/jq@2.2.0
 jobs:
   build:
     executor: newman/postman-newman-docker
-    environment:
-      BASH: true  
     steps:
       - checkout
       - newman/newman-run:
           collection: ./Users.postman_collection.json
           environment: ./My-adonis-api-testing.postman_environment.json
-      - jq/install
       - slack/notify:
           channel: a-project
           event: fail
           template: basic_fail_1
+  Notify slack:
+    docker:
+      - image: alpine:latest
 workflows:
   run_tests_and_notify:
     jobs:
+      - Notify slack
       - build:
           context: slack-secrets
